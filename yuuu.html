@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,34 +19,6 @@
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --radius: 16px;
-}
-
-/* 🔥 HOME BUTTON CSS */
-.home-nav {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-
-.btn-home {
-  background: var(--glass);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: var(--text-main);
-  padding: 10px 18px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: 0.3s;
-  backdrop-filter: blur(10px);
-}
-
-.btn-home:hover {
-  background: var(--primary);
-  border-color: var(--primary);
-  transform: translateY(-2px);
 }
 
 /* 🔥 CUSTOM MODAL CSS */
@@ -74,8 +47,19 @@
   animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-.modal-icon { font-size: 50px; color: #ef4444; margin-bottom: 15px; }
-.modal-btns { display: flex; gap: 12px; margin-top: 25px; justify-content: center; }
+.modal-icon {
+  font-size: 50px;
+  color: #ef4444;
+  margin-bottom: 15px;
+}
+
+.modal-btns {
+  display: flex;
+  gap: 12px;
+  margin-top: 25px;
+  justify-content: center;
+}
+
 .btn-cancel { background: #334155 !important; }
 .btn-confirm { background: #ef4444 !important; }
 
@@ -91,7 +75,7 @@
 .deleting-row { animation: rowFadeOut 0.4s ease forwards; pointer-events: none; }
 
 * { box-sizing: border-box; }
-body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-gradient); background-attachment: fixed; color: var(--text-main); min-height: 100vh; padding: 15px; position: relative; }
+body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-gradient); background-attachment: fixed; color: var(--text-main); min-height: 100vh; padding: 15px; }
 header { text-align: center; padding: 20px 0 30px; }
 h1 { font-family: 'Poppins', sans-serif; font-size: clamp(1.5rem, 5vw, 2.2rem); margin: 0; background: linear-gradient(to right, #fff, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
@@ -118,19 +102,10 @@ td { padding: 10px 8px; border: 1px solid rgba(255,255,255,0.05); white-space: n
 .total-item span { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 5px; }
 .total-item div { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
 
-@media (max-width: 768px) { 
-  .home-nav { position: static; text-align: center; margin-bottom: 10px; display: flex; justify-content: center; }
-  .controls { flex-direction: column; } 
-}
+@media (min-width: 768px) { .controls { flex-direction: row; justify-content: space-between; } }
 </style>
 </head>
 <body>
-
-<nav class="home-nav">
-  <a href="index.html" class="btn-home">
-    <i class="fa-solid fa-house"></i> Home
-  </a>
-</nav>
 
 <div id="deleteModal" class="modal-overlay">
   <div class="modal-content">
@@ -269,6 +244,7 @@ function generateFullTable(data) {
   return html;
 }
 
+// ✅ NEW MODAL LOGIC
 function openDeleteModal(invId) {
   pendingDeleteId = invId;
   document.getElementById('deleteModal').style.display = 'flex';
