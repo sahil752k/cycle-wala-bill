@@ -2,326 +2,112 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Cycle Wala Sales Dashboard - Pro</title>
+  <title>Cycle Wala Live Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<style>
-:root {
-  --primary: #f97316;
-  --primary-hover: #ea580c;
-  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  --card-bg: rgba(255, 255, 255, 0.05);
-  --glass: rgba(255, 255, 255, 0.03);
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --radius: 16px;
-}
-
-/* 🔥 HOME BUTTON CSS */
-.home-nav {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-
-.btn-home {
-  background: var(--glass);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: var(--text-main);
-  padding: 10px 18px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: 0.3s;
-  backdrop-filter: blur(10px);
-}
-
-.btn-home:hover {
-  background: var(--primary);
-  border-color: var(--primary);
-  transform: translateY(-2px);
-}
-
-/* 🔥 CUSTOM MODAL CSS */
-.modal-overlay {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  animation: fadeIn 0.3s ease;
-}
-
-.modal-content {
-  background: #1e293b;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 30px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  transform: scale(0.9);
-  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-.modal-icon { font-size: 50px; color: #ef4444; margin-bottom: 15px; }
-.modal-btns { display: flex; gap: 12px; margin-top: 25px; justify-content: center; }
-.btn-cancel { background: #334155 !important; }
-.btn-confirm { background: #ef4444 !important; }
-
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes popIn { to { transform: scale(1); } }
-
-/* 🔥 DELETE ROW ANIMATION */
-@keyframes rowFadeOut {
-  0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0.95); background: rgba(239, 68, 68, 0.2); }
-}
-
-.deleting-row { animation: rowFadeOut 0.4s ease forwards; pointer-events: none; }
-
-* { box-sizing: border-box; }
-body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-gradient); background-attachment: fixed; color: var(--text-main); min-height: 100vh; padding: 15px; position: relative; }
-header { text-align: center; padding: 20px 0 30px; }
-h1 { font-family: 'Poppins', sans-serif; font-size: clamp(1.5rem, 5vw, 2.2rem); margin: 0; background: linear-gradient(to right, #fff, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; max-width: 1300px; margin: 0 auto 30px; }
-.card { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: var(--radius); border-left: 4px solid var(--primary); }
-.card h3 { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; margin: 0 0 10px; }
-.card .amount { font-size: 1.6rem; font-weight: 700; display: block; }
-.card .sales-count { font-size: 0.85rem; color: var(--primary); margin-top: 5px; font-weight: 500; }
-
-.controls { max-width: 1300px; margin: 0 auto 30px; background: var(--glass); padding: 20px; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; gap: 15px; }
-.control-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
-
-input[type="date"] { background: #0f172a; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px; border-radius: 8px; outline: none; }
-button { padding: 10px 20px; border-radius: 8px; border: none; background: var(--primary); color: white; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
-button:hover { background: var(--primary-hover); }
-
-#dataBox { background: var(--glass); border-radius: var(--radius); padding: 15px; margin: 0 auto; max-width: 1300px; border: 1px solid rgba(255,255,255,0.05); overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 1100px; }
-th { background: rgba(255,255,255,0.05); color: var(--text-muted); padding: 12px 8px; text-align: left; border: 1px solid rgba(255,255,255,0.1); }
-td { padding: 10px 8px; border: 1px solid rgba(255,255,255,0.05); white-space: nowrap; }
-
-.total-summary { display: flex; justify-content: flex-end; gap: 40px; margin-top: 20px; padding: 20px; background: rgba(249, 115, 22, 0.1); border-radius: 12px; border: 1px solid rgba(249, 115, 22, 0.2); }
-.total-item { text-align: center; }
-.total-item span { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 5px; }
-.total-item div { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
-
-@media (max-width: 768px) { 
-  .home-nav { position: static; text-align: center; margin-bottom: 10px; display: flex; justify-content: center; }
-  .controls { flex-direction: column; } 
-}
-</style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <style>
+    :root { --primary: #f97316; --bg: #0f172a; --card: rgba(255, 255, 255, 0.05); }
+    body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; padding: 15px; margin: 0; }
+    header { text-align: center; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .status { font-size: 0.8rem; color: #4ade80; margin-bottom: 10px; }
+    .card { background: var(--card); padding: 20px; border-radius: 12px; border-left: 5px solid var(--primary); margin: 20px auto; max-width: 1200px; }
+    .amount { font-size: 2rem; font-weight: bold; color: #fff; display: block; }
+    #tableBox { max-width: 1200px; margin: 0 auto; overflow-x: auto; background: var(--card); border-radius: 12px; padding: 10px; }
+    table { width: 100%; border-collapse: collapse; min-width: 800px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    th { color: #94a3b8; text-transform: uppercase; font-size: 0.75rem; }
+    .total-row { display: flex; justify-content: flex-end; padding: 20px; font-size: 1.3rem; font-weight: bold; color: var(--primary); }
+  </style>
 </head>
 <body>
 
-<nav class="home-nav">
-  <a href="index.html" class="btn-home">
-    <i class="fa-solid fa-house"></i> Home
-  </a>
-</nav>
-
-<div id="deleteModal" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
-    <h2 style="margin:0; font-family:Poppins;">Are you sure?</h2>
-    <p style="color:var(--text-muted); margin-top:10px;">This bill will be permanently deleted from the database.</p>
-    <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModal()">No, Keep it</button>
-      <button class="btn-confirm" id="confirmDelBtn">Yes, Delete</button>
-    </div>
-  </div>
-</div>
-
 <header>
-  <h1><i class="fa-solid fa-bicycle"></i> Cycle Wala Sales Insight</h1>
-  <p>Real-time analytics & full spreadsheet report</p>
+  <div class="status" id="syncLabel">● Initializing...</div>
+  <h2 style="margin:0">Cycle Wala Sales Insight</h2>
 </header>
 
-<div class="cards">
-  <div class="card"><h3>Today</h3><span class="amount" id="todayAmt">₹0</span><div class="sales-count" id="todayCount">0 Sales</div></div>
-  <div class="card"><h3>Yesterday</h3><span class="amount" id="yesterdayAmt">₹0</span><div class="sales-count" id="yesterdayCount">0 Sales</div></div>
-  <div class="card"><h3>This Week</h3><span class="amount" id="weekAmt">₹0</span><div class="sales-count" id="weekCount">0 Sales</div></div>
-  <div class="card"><h3>This Month</h3><span class="amount" id="monthAmt">₹0</span><div class="sales-count" id="monthCount">0 Sales</div></div>
+<div class="card">
+  Today's Real-time Sale
+  <span class="amount" id="todayDisplay">₹0</span>
 </div>
 
-<div class="controls">
-  <div class="control-group">
-    <input type="date" id="dateInput">
-    <button onclick="filterData()"><i class="fa-solid fa-magnifying-glass"></i> Filter</button>
-  </div>
-  <div class="control-group">
-    <input type="date" id="fromDate"><span style="color:var(--text-muted)">to</span><input type="date" id="toDate">
-    <button onclick="filterRange()"><i class="fa-solid fa-filter"></i> Run Range</button>
-    <button onclick="loadData()" style="background:#334155"><i class="fa-solid fa-rotate"></i> Refresh</button>
-  </div>
-</div>
-
-<div id="dataBox">
-  <div style="text-align: center; padding: 40px; color: var(--text-muted);">
-    <i class="fa-solid fa-table-list" style="font-size: 2.5rem; margin-bottom: 15px; opacity: 0.2;"></i>
-    <h3>Select Date to View Full Spreadsheet Report</h3>
-  </div>
+<div id="tableBox">
+  <p style="text-align:center; padding:20px; color:#94a3b8;">Fetching data directly from Google Sheets...</p>
 </div>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbq-qgIwWMnB4NeU9bAqt0PZKzTpgw7vJvDCKLB6z_X0lvd28ukF-Kr6nKBT0sWgNyXg/exec"; 
-const SHEET_URL = "https://opensheet.elk.sh/1QkJkOSir4IO8PABtPLMnd4gDalTLYJT0yyDciNXFZLE/Sheet1";
+// configuration
+const SHEET_ID = '1QkJkOSir4IO8PABtPLMnd4gDalTLYJT0yyDciNXFZLE';
+const TAB_NAME = 'Sheet1';
 
-let allData = [];
-let pendingDeleteId = null;
+// Load Google Charts
+google.charts.load('current', {packages: ['corechart']});
+google.charts.setOnLoadCallback(fetchSheetData);
 
-async function loadData() {
-  try {
-    const res = await fetch(SHEET_URL);
-    allData = await res.json();
-    calculateStats();
-  } catch (e) { console.error("Error", e); }
+async function fetchSheetData() {
+    // Direct Google Query URL (No third party involved)
+    const query = new google.visualization.Query(
+        `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${TAB_NAME}`
+    );
+
+    query.send(handleQueryResponse);
 }
 
-function formatDate(str) {
-  if(!str) return "";
-  let p = str.trim().split("/");
-  return `${p[2]}-${p[1].padStart(2,"0")}-${p[0].padStart(2,"0")}`;
+function handleQueryResponse(response) {
+    if (response.isError()) {
+        document.getElementById('syncLabel').innerText = "⚠️ Error: Make sure Sheet is Public (Anyone with link)";
+        document.getElementById('syncLabel').style.color = "#f87171";
+        return;
+    }
+
+    const data = response.getDataTable();
+    const rows = data.getNumberOfRows();
+    const cols = data.getNumberOfColumns();
+    
+    // Get Column Headers
+    let headers = [];
+    for (let i = 0; i < cols; i++) {
+        headers.push(data.getColumnLabel(i));
+    }
+
+    const today = new Date().toLocaleDateString('en-GB'); // Format: DD/MM/YYYY
+    let todayTotal = 0;
+    let tableHtml = `<table><thead><tr><th>Date</th><th>Customer</th><th>Product</th><th>Qty</th><th>Total</th></tr></thead><tbody>`;
+    let foundAny = false;
+
+    for (let i = 0; i < rows; i++) {
+        let rowDate = data.getFormattedValue(i, 0); // Assuming Date is 1st column
+        let customer = data.getValue(i, 2); // Customer Name
+        let product = data.getValue(i, 4); // Product
+        let qty = data.getValue(i, 5);     // Qty
+        let total = data.getValue(i, 11);  // Grand Total (Assuming 12th column L)
+
+        if (rowDate === today) {
+            foundAny = true;
+            let amt = parseFloat(String(total).replace(/[₹,]/g, '')) || 0;
+            todayTotal += amt;
+
+            tableHtml += `<tr>
+                <td>${rowDate}</td>
+                <td>${customer || '-'}</td>
+                <td>${product || '-'}</td>
+                <td>${qty || 0}</td>
+                <td style="font-weight:bold; color:#f97316">₹${amt.toLocaleString('en-IN')}</td>
+            </tr>`;
+        }
+    }
+
+    tableHtml += `</tbody></table><div class="total-row">Total: ₹${todayTotal.toLocaleString('en-IN')}</div>`;
+    
+    document.getElementById('todayDisplay').innerText = "₹" + todayTotal.toLocaleString('en-IN');
+    document.getElementById('tableBox').innerHTML = foundAny ? tableHtml : "<p style='text-align:center; padding:30px;'>No sales found for today yet.</p>";
+    document.getElementById('syncLabel').innerText = "● Live Sync Active: " + new Date().toLocaleTimeString();
+    document.getElementById('syncLabel').style.color = "#4ade80";
 }
 
-function calculateStats() {
-  let now = new Date();
-  let todayStr = now.toISOString().split('T')[0];
-  let yesterday = new Date(now); yesterday.setDate(now.getDate() - 1);
-  let yesterdayStr = yesterday.toISOString().split('T')[0];
-  let curr = new Date();
-  let first = curr.getDate() - curr.getDay() + 1;
-  let weekStart = new Date(curr.setDate(first)); weekStart.setHours(0,0,0,0);
-  let monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-
-  let stats = { t: {amt:0, c:0}, y: {amt:0, c:0}, w: {amt:0, c:0}, m: {amt:0, c:0} };
-
-  allData.forEach(r => {
-    let dStr = formatDate(r.Date);
-    let dDate = new Date(dStr);
-    let val = parseFloat(r["Grand Total"] || 0);
-    if (dStr === todayStr) { stats.t.amt += val; stats.t.c++; }
-    if (dStr === yesterdayStr) { stats.y.amt += val; stats.y.c++; }
-    if (dDate >= weekStart && dDate <= now) { stats.w.amt += val; stats.w.c++; }
-    if (dDate >= monthStart && dDate <= now) { stats.m.amt += val; stats.m.c++; }
-  });
-
-  updateCard("today", stats.t); updateCard("yesterday", stats.y);
-  updateCard("week", stats.w); updateCard("month", stats.m);
-}
-
-function updateCard(id, data) {
-  document.getElementById(id + "Amt").innerText = "₹" + data.amt.toLocaleString('en-IN');
-  document.getElementById(id + "Count").innerText = data.c + " Sales Done";
-}
-
-function generateFullTable(data) {
-  if(data.length === 0) return "<p style='text-align:center; padding:20px;'>No data found.</p>";
-  let totalAmt = 0, totalQty = 0;
-  let html = `<table><thead><tr><th>Sr. No.</th><th>Date</th><th>Customer Name</th><th>Phone</th><th>Product</th><th>Qty</th><th>Rate</th><th>Amount</th><th>Subtotal</th><th>CGST</th><th>SGST</th><th>Grand Total</th><th>Action</th></tr></thead><tbody>`;
-
-  data.forEach((r, index) => {
-    let gTotal = parseFloat(r["Grand Total"] || 0);
-    let qty = parseInt(r.Qty || 0);
-    totalAmt += gTotal;
-    totalQty += qty;
-    let invNo = r["Invoice No"] || Object.values(r)[0]; 
-
-    html += `<tr class="row-data row-${invNo}" data-qty="${qty}" data-total="${gTotal}">
-      <td>${index + 1}</td>
-      <td>${r.Date}</td>
-      <td>${r["Customer Name"]}</td>
-      <td>${r.Phone || '-'}</td>
-      <td>${r.Product}</td>
-      <td class="qty-val">${qty}</td>
-      <td>₹${r.Rate}</td>
-      <td>₹${r.Amount}</td>
-      <td>₹${r.Subtotal || '-'}</td>
-      <td>₹${r.CGST}</td>
-      <td>₹${r.SGST}</td>
-      <td style="font-weight:700; color:var(--primary)">₹${gTotal.toLocaleString('en-IN')}</td>
-      <td>
-        <button onclick="openDeleteModal('${invNo}')" style="background:#ef4444; color:white; border:none; padding:8px 12px; cursor:pointer; border-radius:6px;">
-          <i class="fa-solid fa-trash-can"></i>
-        </button>
-      </td>
-    </tr>`;
-  });
-
-  html += `</tbody></table>
-  <div class="total-summary">
-    <div class="total-item"><span>Qty Total</span><div id="sumQty">${totalQty}</div></div>
-    <div class="total-item"><span>Bills</span><div id="sumBills">${data.length}</div></div>
-    <div class="total-item"><span>Grand Total</span><div id="sumGrand">₹${totalAmt.toLocaleString('en-IN')}</div></div>
-  </div>`;
-  return html;
-}
-
-function openDeleteModal(invId) {
-  pendingDeleteId = invId;
-  document.getElementById('deleteModal').style.display = 'flex';
-  document.getElementById('confirmDelBtn').onclick = executeDelete;
-}
-
-function closeModal() {
-  document.getElementById('deleteModal').style.display = 'none';
-  pendingDeleteId = null;
-}
-
-function executeDelete() {
-  const invId = pendingDeleteId;
-  closeModal();
-  
-  const targets = document.querySelectorAll(`.row-${invId}`);
-  targets.forEach(row => {
-    let rowQty = parseInt(row.getAttribute('data-qty') || 0);
-    let rowTotal = parseFloat(row.getAttribute('data-total') || 0);
-    row.classList.add('deleting-row');
-
-    setTimeout(() => {
-        document.getElementById('sumQty').innerText = parseInt(document.getElementById('sumQty').innerText) - rowQty;
-        document.getElementById('sumBills').innerText = parseInt(document.getElementById('sumBills').innerText) - 1;
-        let curGrandText = document.getElementById('sumGrand').innerText.replace(/[₹,]/g, '');
-        document.getElementById('sumGrand').innerText = "₹" + (parseFloat(curGrandText) - rowTotal).toLocaleString('en-IN');
-        row.remove();
-    }, 400);
-  });
-
-  try {
-    fetch(APPS_SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify({ action: "delete", invoice: invId }) });
-    setTimeout(loadData, 2000);
-  } catch (err) { console.error(err); }
-}
-
-function filterData() {
-  let val = document.getElementById("dateInput").value;
-  if(!val) return;
-  let filtered = allData.filter(r => formatDate(r.Date) === val);
-  document.getElementById("dataBox").innerHTML = `<h3>Report: ${val}</h3>` + generateFullTable(filtered);
-}
-
-function filterRange() {
-  let f = document.getElementById("fromDate").value;
-  let t = document.getElementById("toDate").value;
-  if(!f || !t) return;
-  let filtered = allData.filter(r => { let d = formatDate(r.Date); return d >= f && d <= t; });
-  document.getElementById("dataBox").innerHTML = `<h3>Range: ${f} to ${t}</h3>` + generateFullTable(filtered);
-}
-
-loadData();
-setInterval(loadData, 10000);
+// 🔄 AUTO REFRESH EVERY 5 SECONDS
+setInterval(fetchSheetData, 5000);
 </script>
 
 </body>
